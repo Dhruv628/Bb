@@ -97,27 +97,28 @@ const Photos: React.FC<PhotoProps> = ({ photos, folderName }) => {
                     >
                       <div className="relative h-full ">
                         <div className="z-20 h-full ">
-                          <LazyLoadImage
+                          <img
                             src={image.url}
-                            effect="blur"
-                            beforeLoad={() => {
-                              setIsLoading(true);
-                            }}
-                            onLoad={handleImageLoad}
+                            // effect="blur"
+                            // beforeLoad={() => {
+                            //   setIsLoading(true);
+                            // }}
+                            // onLoad={handleImageLoad}
+                            loading="lazy"
                             className="cursor-pointer shadow-md object-cover h-[20rem] sm:h-[15rem] md:h-[11.5rem] xl:h-[17rem] "
                             alt={`Image ${index}`}
                             onClick={() => openFullScreenImage(image.url)}
                           />
                         </div>
 
-                        {isLoading && (
+                        {/* {isLoading && (
                           <div className=" absolute inset-0 flex items-center justify-center">
                             <div>
                               <CircularLoader />
                             </div>
                           </div>
-                        )}
-                        {!isLoading && (
+                        )} */}
+                        {/* {!isLoading && ( */}
                           <div className="absolute right-2 top-2">
                             <div>
                               <MyModal
@@ -136,7 +137,7 @@ const Photos: React.FC<PhotoProps> = ({ photos, folderName }) => {
                               </button>
                             )}
                           </div>
-                        )}
+                        {/* )} */}
                       </div>
 
                       {fullScreenImage === image.url && (
