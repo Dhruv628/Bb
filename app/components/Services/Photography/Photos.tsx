@@ -42,12 +42,17 @@ const Photos: React.FC<PhotoProps> = ({ photos, folderName }) => {
   const [isLoading, setIsLoading] = useState<any>(false);
   const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
   const [loading, setloading] = useState(false);
-  const isLoggedIn =
-    typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+  const[login,setlogin] = useState(false);
 
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
 
   useEffect(() => {
+    const isLoggedIn =
+    typeof window !== "undefined" ? localStorage.getItem("role") : null;
+
+    if(isLoggedIn === "admin"){
+        setlogin(true);
+    }
     if (photos) {
       setloading(false);
     }
@@ -128,7 +133,7 @@ const Photos: React.FC<PhotoProps> = ({ photos, folderName }) => {
                                 url={image.url}
                               />
                             </div>
-                            {isLoggedIn && (
+                            {login && (
                               <button
                                 className="bg-blue-500 bg-opacity-60 mt-1 flex justify-center w-[2.5rem] px-2 py-2 rounded-sm"
                                 onClick={() => downloadImage(image.url, index)}

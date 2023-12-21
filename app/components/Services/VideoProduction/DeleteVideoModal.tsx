@@ -10,6 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 export default function DeleteVideoModal({ id, url }: { id: any; url: any }) {
   let [isOpen, setIsOpen] = useState(false);
 
+  const isLoggedIn =
+    typeof window !== "undefined" ? localStorage.getItem("role") : null;
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -39,7 +42,7 @@ export default function DeleteVideoModal({ id, url }: { id: any; url: any }) {
         }
       );
       const res = await deletedImage.json();
-      toast.success("Video deleted successfully")
+      toast.success("Video deleted successfully");
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -53,11 +56,17 @@ export default function DeleteVideoModal({ id, url }: { id: any; url: any }) {
 
   return (
     <>
-      <div className="">
-        <button type="button" onClick={openModal} className="bg-blue-500 bg-opacity-60 flex justify-center  w-[2.5rem] px-2 py-2 rounded-sm">
-          <Dustbin w={20} h={20} fill="white" />
-        </button>
-      </div>
+      {isLoggedIn === "admin" && (
+        <div className="">
+          <button
+            type="button"
+            onClick={openModal}
+            className="bg-blue-500 bg-opacity-60 flex justify-center  w-[2.5rem] px-2 py-2 rounded-sm"
+          >
+            <Dustbin w={20} h={20} fill="white" />
+          </button>
+        </div>
+      )}
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>

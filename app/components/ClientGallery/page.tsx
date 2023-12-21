@@ -15,10 +15,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { motion } from "framer-motion";
 
+// const isLoggedIn =
+//   typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
 const isLoggedIn =
-  typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
-
-console.log(isLoggedIn);
+  typeof window !== "undefined" ? localStorage.getItem("role") : null;
+  // console.log(isLoggedIn);
 
 const Photography = () => {
   const [folderName, setFolderName] = useState(0);
@@ -28,11 +29,18 @@ const Photography = () => {
   const [isAccessConfirmationModalOpen, setisAccessConfirmationModalOpen] =
     useState(false);
   const [isImageLoading, setIsImageLoading] = useState<any>(false);
+  const[login,setlogin] = useState(false);
 
   useEffect(() => {
-    setloading(true);
+    const isLoggedIn =
+    typeof window !== "undefined" ? localStorage.getItem("role") : null;
+
+    if(isLoggedIn === "admin"){
+        setlogin(true);
+    }
+
     const fetchPhotosForInitialization = async () => {
-      setloading(true);
+      // setloading(true);
       try {
         const response = await fetch(
           "/api/routes/Photo/ClientGallery/FindAll",
@@ -50,14 +58,14 @@ const Photography = () => {
           const photosLength = resPhotos.clientGallery.length;
           dispatch(inititalizeClientGallery(resPhotos.clientGallery));
         }
-        setloading(false);
+        // setloading(false);
       } catch (error) {
         console.error("Error fetching photos:", error);
-        setloading(false);
+        // setloading(false);
       }
     };
     fetchPhotosForInitialization();
-    console.log(photos);
+    // console.log(photos);
   }, []);
 
   return (
@@ -80,7 +88,7 @@ const Photography = () => {
             {/* Header  */}
             <div className="flex gap-4 flex-col items-center px-2  pb-8">
               <div className=" px-[3.8rem] justify-end flex w-full">
-                {isLoggedIn && <CreateFolderModal />}
+                {login && <CreateFolderModal />}
               </div>
               <div
                 style={{ zIndex: 0 }}
@@ -105,7 +113,7 @@ const Photography = () => {
                                   {e.name}
                                 </span>
                                 <span className="">
-                                  {isLoggedIn && (
+                                  {login && (
                                     <SettingPopover
                                       index={folderName}
                                       fId={e._id}
@@ -145,13 +153,13 @@ const Photography = () => {
                                 }
                               />
                             </div>
-                            {isImageLoading && (
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div>
-                                  <CircularLoader />
-                                </div>
-                              </div>
-                            )}
+                            {/* {isLoggedIn  === "admin" && (
+                              // <div className="absolute inset-0 flex items-center justify-center">
+                              //   <div>
+                              //     <CircularLoader />
+                              //   </div>
+                              // </div>
+                            )} */}
                           </div>
                         </div>
                       );
