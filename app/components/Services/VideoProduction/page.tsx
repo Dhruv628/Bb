@@ -15,8 +15,9 @@ const Videography = () => {
   const [loading, setloading] = useState(false);
   const videos = useSelector((state) => (state as any).videosReducer?.videos);
   const dispatch = useDispatch();
+
   const isLoggedIn =
-    typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+  typeof window !== "undefined" ? localStorage.getItem("role") : null;
 
   console.log(isLoggedIn);
 
@@ -79,11 +80,11 @@ const Videography = () => {
                               ? "border-b border-blue-400 text-blue-400"
                               : ""
                           }
-            `}
+                        `}
                         >
                           {e.name}
                         </span>{" "}
-                        {isLoggedIn && (
+                        {isLoggedIn === "admin" && (
                           <SettingPopover
                             index={folderName}
                             fId={e._id}
@@ -97,7 +98,7 @@ const Videography = () => {
               : ""}
           </div>
           <div className="pr-6 hover:scale-[1.05] transition">
-            {isLoggedIn && <CreateFolderModal />}
+            {isLoggedIn === "admin" && <CreateFolderModal />}
           </div>
         </div>
         {/* Photos  */}

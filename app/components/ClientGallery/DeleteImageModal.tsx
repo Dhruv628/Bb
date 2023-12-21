@@ -37,9 +37,9 @@ export default function DeleteImageModal({ id, url,sethitRedux }: { id: any; url
       );
       const res = await deletedImage.json();
       sethitRedux((prev:any)=>prev+1);
-      console.log(res);
+      // console.log(res);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
