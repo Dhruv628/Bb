@@ -10,20 +10,21 @@ import Photos from "@/app/components/Services/Photography/Photos";
 import Loader from "../../Loader/Loader";
 import { motion } from 'framer-motion';
 
-const isLoggedIn =
-  typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
-
-console.log(isLoggedIn);
-
 const Photography = () => {
   const [folderName, setFolderName] = useState(0);
   const [loading, setloading] = useState(false);
   const photos = useSelector((state) => (state as any).photosReducer?.photos);
   const dispatch = useDispatch();
   const [lastIndex, setlastIndex] = useState(0);
+  const[login,setlogin] = useState(false);
 
   useEffect(() => {
+    const isLoggedIn =
+    typeof window !== "undefined" ? localStorage.getItem("role") : null;
 
+    if(isLoggedIn === "admin"){
+        setlogin(true);
+    }
     const fetchPhotosForInitialization = async () => {
           setloading(true);
       try {
@@ -88,7 +89,7 @@ const Photography = () => {
                           {e.name}
                         </div>
                         <div className="" onClick={() => setFolderName(i)}>
-                          {isLoggedIn && (
+                          {login  && (
                             <SettingPopover
                               lastIndex={photos?.length}
                               setloading={setloading}
@@ -105,10 +106,10 @@ const Photography = () => {
               : ""}
           </div>
           <div className="md:pr-6 block lg:hidden hover:scale-[1.05] transition">
-            {isLoggedIn && <CreateFolderModal h={20} w={20} />}
+            {login && <CreateFolderModal h={20} w={20} />}
           </div>
           <div className="pr-6 hidden lg:block hover:scale-[1.05] transition">
-            {isLoggedIn && <CreateFolderModal h={35} w={35} />}
+            {login && <CreateFolderModal h={35} w={35} />}
           </div>
         </div>
         {/* Photos  */}

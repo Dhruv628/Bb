@@ -6,10 +6,11 @@ import { deleteAPhoto } from "@/app/redux/actions/photographyReducerAction";
 
 export default function MyModal({ id, url }: { id: any; url: any }) {
   let [isOpen, setIsOpen] = useState(false);
+  
   const isLoggedIn =
-    typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+    typeof window !== "undefined" ? localStorage.getItem("role") : null;
 
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
 
   function closeModal() {
     setIsOpen(false);
@@ -54,7 +55,7 @@ export default function MyModal({ id, url }: { id: any; url: any }) {
   return (
     <>
       <div className="">
-        {isLoggedIn && (
+        {isLoggedIn ==="admin" && (
           <button
             type="button"
             onClick={openModal}

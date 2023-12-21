@@ -10,19 +10,21 @@ import dynamic from "next/dynamic";
 
 const checkAuthToken = () => {
   const authToken =
-    typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+    typeof window !== "undefined" ? localStorage.getItem("role") : null;
   return authToken;
 };
 
 const NavBar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
   useEffect(() => {
     const authToken = checkAuthToken();
-    if (authToken) {
+    if (authToken === "admin") {
       setIsLoggedIn(true);
     }
   }, []);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeOption, setActiveOption] = useState("");
   const [loading, setLoading] = useState(false); // Added loading state
 
@@ -31,7 +33,7 @@ const NavBar = () => {
     setIsLoggedIn(false);
     router.push("/");
     setLoading(false);
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("role");
   };
 
   const toggleMobileMenu = () => {

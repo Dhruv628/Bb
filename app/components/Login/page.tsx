@@ -18,11 +18,7 @@ const Login: React.FC = () => {
   const [textload, setTextload] = useState(false);
   const [formLoad, setFormLoad] = useState(false);
   const [loading, setLoading] = useState(false); // Added loading state
-
-  const authtoken = useSelector(
-    (state) => (state as any).userReducer?.authtoken
-  );
-
+  
   useEffect(() => {
     // Set textload to true after a delay or any other condition you prefer
     setFormLoad(true);
@@ -48,23 +44,20 @@ const Login: React.FC = () => {
     try {
       const response = await fetch("/api/routes/User/Login", {
         method: "POST",
-        headers: {
-          authtoken: authtoken,
-        },
         body: JSON.stringify(sendBody),
       });
 
       const res = await response.json();
-      console.log(res);
+      console.log("response",res);
 
       if (response.ok) {
         // Navigate to the homepage
         router.push("/");
-        localStorage.setItem("authToken", authtoken);
+        localStorage.setItem("role", res.existingUser.role);
       } else {
         // Handle error or display a message
         console.log("API request failed:", res);
-        toast.error("Incorrect email or password");
+        toast.error(res.message);
       }
       return res; // Return the created folder
     } catch (error: any) {
